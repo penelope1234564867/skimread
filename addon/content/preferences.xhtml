@@ -1,0 +1,330 @@
+<linkset>
+  <html:link rel="localization" href="__addonRef__-preferences.ftl" />
+</linkset>
+<groupbox
+  onload="Zotero.__addonInstance__.hooks.onPrefsEvent('load', { window })"
+>
+  <label><html:h2 data-l10n-id="pref-title"></html:h2></label>
+
+  <hbox align="center">
+    <html:label
+      for="zotero-prefpane-__addonRef__-apiType"
+      data-l10n-id="pref-provider"
+    ></html:label>
+    <menulist id="zotero-prefpane-__addonRef__-apiType" style="width: 360px">
+      <menupopup>
+        <menuitem
+          label="OpenAI-compatible — local or cloud (Ollama, vLLM, LM Studio, OpenAI, Anthropic, OpenRouter, Gemini)"
+          value="openai-compatible"
+        />
+        <menuitem
+          label="Codex App Server — ChatGPT login"
+          value="codex-app-server"
+        />
+        <menuitem
+          label="Claude Code — Claude subscription login"
+          value="claude-code"
+        />
+        <menuitem
+          label="Antigravity CLI — Google login (experimental)"
+          value="antigravity-cli"
+        />
+      </menupopup>
+    </menulist>
+  </hbox>
+
+  <vbox
+    id="zotero-prefpane-__addonRef__-consent-row"
+    style="display: none; gap: 6px"
+  >
+    <description style="max-width: 540px; color: #9a3412">
+      This sends extracted PDF text off your computer to the selected endpoint.
+      SkimRead never sends anything to a remote provider automatically.
+    </description>
+    <checkbox
+      id="zotero-prefpane-__addonRef__-cloudConsent"
+      preference="cloudConsent"
+      label="I understand that extracted PDF text will leave this computer"
+    />
+  </vbox>
+
+  <vbox
+    id="zotero-prefpane-__addonRef__-cloud-settings"
+    style="display: none; gap: 8px"
+  >
+    <vbox id="zotero-prefpane-__addonRef__-codex-settings" style="gap: 8px">
+      <description style="max-width: 520px">
+        Uses your local Codex CLI session. Run
+        <html:code>codex login</html:code>
+        first. The reader starts an ephemeral Codex thread only for its
+        structured whole-paper selection; it does not expose Zotero tools, chat,
+        notes, or file changes to Codex.
+      </description>
+      <hbox align="center">
+        <html:label for="zotero-prefpane-__addonRef__-codexModel"
+          >Codex model</html:label
+        >
+        <menulist
+          id="zotero-prefpane-__addonRef__-codexModel"
+          style="width: 220px"
+        >
+          <menupopup />
+        </menulist>
+        <button
+          id="zotero-prefpane-__addonRef__-codex-refresh-models"
+          label="Refresh"
+        />
+      </hbox>
+      <hbox align="center">
+        <html:label for="zotero-prefpane-__addonRef__-codexReasoning"
+          >Codex reasoning</html:label
+        >
+        <menulist id="zotero-prefpane-__addonRef__-codexReasoning">
+          <menupopup>
+            <menuitem label="Low" value="low" />
+            <menuitem label="Medium" value="medium" />
+            <menuitem label="High" value="high" />
+          </menupopup>
+        </menulist>
+      </hbox>
+      <hbox align="center">
+        <html:label for="zotero-prefpane-__addonRef__-codexPath"
+          >Codex CLI path</html:label
+        >
+        <html:input
+          type="text"
+          id="zotero-prefpane-__addonRef__-codexPath"
+          preference="codexPath"
+          style="width: 260px"
+        />
+      </hbox>
+    </vbox>
+    <vbox id="zotero-prefpane-__addonRef__-claude-settings" style="gap: 8px">
+      <description style="max-width: 520px">
+        Uses your local Claude Code session (a Claude Pro/Max subscription). Run
+        <html:code>claude login</html:code>
+        first. SkimRead runs the CLI headlessly for one structured request with
+        tools disabled; it does not expose Zotero, your files, or commands to
+        Claude, and reads no API key.
+      </description>
+      <hbox align="center">
+        <html:label for="zotero-prefpane-__addonRef__-claudeModel"
+          >Claude model</html:label
+        >
+        <menulist
+          id="zotero-prefpane-__addonRef__-claudeModel"
+          style="width: 220px"
+        >
+          <menupopup>
+            <menuitem label="Sonnet (balanced, recommended)" value="sonnet" />
+            <menuitem label="Haiku (fastest, cheapest)" value="haiku" />
+            <menuitem label="Opus (most capable, slowest)" value="opus" />
+          </menupopup>
+        </menulist>
+      </hbox>
+      <hbox align="center">
+        <html:label for="zotero-prefpane-__addonRef__-claudePath"
+          >Claude CLI path</html:label
+        >
+        <html:input
+          type="text"
+          id="zotero-prefpane-__addonRef__-claudePath"
+          preference="claudePath"
+          style="width: 260px"
+        />
+      </hbox>
+      <description style="max-width: 520px; font-size: 12px; opacity: 0.8">
+        Aliases always resolve to the current version of that model, so this
+        does not need updating when new ones are released. Sonnet suits
+        skimming; Haiku is quicker on long books.
+      </description>
+    </vbox>
+    <vbox
+      id="zotero-prefpane-__addonRef__-antigravity-settings"
+      style="gap: 8px"
+    >
+      <description style="max-width: 520px">
+        Uses your signed-in Google Antigravity CLI session. This is an
+        experimental cloud provider: every request sends extracted document text
+        to the selected model, and Antigravity currently creates a local
+        conversation and transcript for each request. Its coding-agent harness
+        also uses substantially more input tokens than a direct model API.
+      </description>
+      <hbox align="center">
+        <html:label for="zotero-prefpane-__addonRef__-antigravityModel"
+          >Antigravity model</html:label
+        >
+        <menulist
+          id="zotero-prefpane-__addonRef__-antigravityModel"
+          style="width: 260px"
+        >
+          <menupopup />
+        </menulist>
+        <button
+          id="zotero-prefpane-__addonRef__-antigravity-refresh-models"
+          label="Refresh"
+        />
+      </hbox>
+      <hbox align="center">
+        <html:label for="zotero-prefpane-__addonRef__-antigravityPath"
+          >Antigravity CLI path</html:label
+        >
+        <html:input
+          type="text"
+          id="zotero-prefpane-__addonRef__-antigravityPath"
+          preference="antigravityPath"
+          placeholder="Auto-detect (~/.local/bin/agy)"
+          style="width: 260px"
+        />
+      </hbox>
+      <description style="max-width: 520px; font-size: 12px; opacity: 0.8">
+        Leave the path blank to check the current user's standard install
+        locations. SkimRead requests schema-constrained JSON and asks the agent
+        not to use tools, but Antigravity CLI does not yet expose a dedicated
+        tool-free inference-server mode.
+      </description>
+    </vbox>
+  </vbox>
+
+  <hbox id="zotero-prefpane-__addonRef__-url-row" align="center">
+    <html:label
+      for="zotero-prefpane-__addonRef__-ollamaUrl"
+      data-l10n-id="pref-ollama-url"
+    ></html:label>
+    <html:input
+      type="text"
+      id="zotero-prefpane-__addonRef__-ollamaUrl"
+      preference="ollamaUrl"
+      style="width: 260px"
+    ></html:input>
+  </hbox>
+
+  <hbox id="zotero-prefpane-__addonRef__-compat-key-row" align="center">
+    <html:label for="zotero-prefpane-__addonRef__-openaiCompatibleKey"
+      >API key (optional, for remote endpoints)</html:label
+    >
+    <html:input
+      type="password"
+      id="zotero-prefpane-__addonRef__-openaiCompatibleKey"
+      preference="openaiCompatibleKey"
+      style="width: 260px"
+    ></html:input>
+  </hbox>
+  <html:datalist id="zotero-prefpane-__addonRef__-model-list"></html:datalist>
+
+  <hbox id="zotero-prefpane-__addonRef__-skim-model-row" align="center">
+    <html:label
+      for="zotero-prefpane-__addonRef__-skimModel"
+      data-l10n-id="pref-skim-model"
+    ></html:label>
+    <html:input
+      type="text"
+      id="zotero-prefpane-__addonRef__-skimModel"
+      preference="skimModel"
+      list="zotero-prefpane-__addonRef__-model-list"
+      style="width: 220px"
+    ></html:input>
+    <button
+      id="zotero-prefpane-__addonRef__-refresh-models"
+      data-l10n-id="pref-refresh-models"
+    />
+  </hbox>
+
+  <hbox id="zotero-prefpane-__addonRef__-num-ctx-row" align="center">
+    <html:label
+      for="zotero-prefpane-__addonRef__-contextTokens"
+      data-l10n-id="pref-num-ctx"
+    ></html:label>
+    <html:input
+      type="number"
+      id="zotero-prefpane-__addonRef__-contextTokens"
+      preference="contextTokens"
+      min="2048"
+      step="1024"
+      style="width: 110px"
+    ></html:input>
+  </hbox>
+
+  <hbox id="zotero-prefpane-__addonRef__-ollama-ctx-row" align="center">
+    <html:label
+      for="zotero-prefpane-__addonRef__-ollamaNumCtx"
+      data-l10n-id="pref-ollama-num-ctx"
+    ></html:label>
+    <html:input
+      type="number"
+      id="zotero-prefpane-__addonRef__-ollamaNumCtx"
+      preference="ollamaNumCtx"
+      min="0"
+      step="1024"
+      style="width: 110px"
+    ></html:input>
+  </hbox>
+
+  <hbox align="center">
+    <html:label
+      for="zotero-prefpane-__addonRef__-annotationLabelDestination"
+      data-l10n-id="pref-annotation-label-destination"
+    ></html:label>
+    <menulist
+      id="zotero-prefpane-__addonRef__-annotationLabelDestination"
+      style="width: 260px"
+    >
+      <menupopup>
+        <menuitem
+          data-l10n-id="pref-annotation-label-comment"
+          value="comment"
+        />
+        <menuitem data-l10n-id="pref-annotation-label-tag" value="tag" />
+        <menuitem data-l10n-id="pref-annotation-label-none" value="none" />
+      </menupopup>
+    </menulist>
+  </hbox>
+  <description
+    data-l10n-id="pref-annotation-label-help"
+    style="max-width: 540px; font-size: 12px; opacity: 0.8"
+  ></description>
+  <checkbox
+    id="zotero-prefpane-__addonRef__-annotationCommentPrefix"
+    preference="annotationCommentPrefix"
+    data-l10n-id="pref-annotation-comment-prefix"
+  />
+
+  <vbox>
+    <html:label
+      for="zotero-prefpane-__addonRef__-customLabels"
+      data-l10n-id="pref-custom-labels"
+    ></html:label>
+    <html:textarea
+      id="zotero-prefpane-__addonRef__-customLabels"
+      rows="6"
+      style="width: 100%; font-family: monospace; font-size: 11px"
+    ></html:textarea>
+    <hbox align="center">
+      <button
+        id="zotero-prefpane-__addonRef__-saveLabels"
+        data-l10n-id="pref-save-labels"
+      />
+      <html:span
+        id="zotero-prefpane-__addonRef__-labels-result"
+        style="font-size: 12px; margin-inline-start: 8px"
+      ></html:span>
+    </hbox>
+  </vbox>
+
+  <hbox align="center">
+    <button
+      id="zotero-prefpane-__addonRef__-test"
+      data-l10n-id="pref-test-connection"
+    />
+    <html:span
+      id="zotero-prefpane-__addonRef__-test-result"
+      style="font-size: 12px; margin-inline-start: 8px"
+    ></html:span>
+  </hbox>
+</groupbox>
+<vbox>
+  <html:label
+    data-l10n-id="pref-help"
+    data-l10n-args='{"time": "__buildTime__","name": "__addonName__","version":"__buildVersion__"}'
+  ></html:label>
+</vbox>

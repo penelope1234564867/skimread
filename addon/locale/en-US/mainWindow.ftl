@@ -1,0 +1,1 @@
+skimread-placeholder = SkimRead
